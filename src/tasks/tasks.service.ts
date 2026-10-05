@@ -16,6 +16,8 @@ export class TasksService {
     status?: string,
     priority?: string,
     search?: string,
+    assignee?: string,
+    tags?: string,
   ): Promise<Task[]> {
     const filter: Record<string, unknown> = { userId };
 
@@ -29,6 +31,14 @@ export class TasksService {
 
     if (search) {
       filter.title = { $regex: search, $options: 'i' };
+    }
+
+    if (assignee) {
+      filter.assignee = { $regex: assignee, $options: 'i' };
+    }
+
+    if (tags) {
+      filter.tags = { $in: [tags] };
     }
 
     return this.taskModel.find(filter).exec();

@@ -33,6 +33,12 @@ export class Task {
   })
   priority: string;
 
+  @Prop({ required: false, default: '' })
+  assignee: string;
+
+  @Prop({ type: [String], default: [] })
+  tags: string[];
+
   @Prop({ required: true })
   userId: string;
 }

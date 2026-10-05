@@ -1,9 +1,9 @@
-import { IsString, IsNotEmpty, IsOptional, IsEnum, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsEnum, MinLength, IsArray } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty({ message: 'Title is required' })
-  @MinLength(10, { message: 'Title must be at least 3 characters' })
+  @MinLength(3, { message: 'Title must be at least 3 characters' })
   title: string;
 
   @IsString()
@@ -21,4 +21,13 @@ export class CreateTaskDto {
   })
   @IsOptional()
   priority?: string;
+
+  @IsString()
+  @IsOptional()
+  assignee?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  tags?: string[];
 }
