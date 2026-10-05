@@ -12,11 +12,12 @@ export class TasksService {
   ) {}
 
   async findAll(
+    userId: string,
     status?: string,
     priority?: string,
     search?: string,
   ): Promise<Task[]> {
-    const filter: Record<string, unknown> = {};
+    const filter: Record<string, unknown> = { userId };
 
     if (status) {
       filter.status = status;
@@ -33,8 +34,8 @@ export class TasksService {
     return this.taskModel.find(filter).exec();
   }
 
-  async findOne(id: string): Promise<Task> {
-    const task = await this.taskModel.findOne({ id }).exec();
+  async findOne(id: string, userId: string): Promise<Task> {
+    const task = await this.taskModel.findOne({ id, userId }).exec();
 
     if (!task) {
       throw new NotFoundException('Task not found');
@@ -43,14 +44,18 @@ export class TasksService {
     return task;
   }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.taskModel.create(createTaskDto);
+  async createTask(createTaskDto: CreateTaskDto, userId: string): Promise<Task> {
+    return this.taskModel.create({ ...createTaskDto, userId });
   }
 
-  async updateTask(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+  async updateTask(
+    id: string,
+    userId: string,
+    updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
     const task = await this.taskModel
       .findOneAndUpdate(
-        { id },
+        { id, userId },
         updateTaskDto,
         { new: true },
       )
@@ -63,8 +68,8 @@ export class TasksService {
     return task;
   }
 
-  async deleteTask(id: string): Promise<{ message: string }> {
-    const task = await this.taskModel.findOneAndDelete({ id }).exec();
+  async deleteTask(id: string, userId: string): Promise<{ message: string }> {
+    const task = await this.taskModel.findOneAndDelete({ id, userId }).exec();
 
     if (!task) {
       throw new NotFoundException('Task not found');
