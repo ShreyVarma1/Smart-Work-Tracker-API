@@ -32,6 +32,9 @@ export class Task {
     default: 'medium',
   })
   priority: string;
+
+  @Prop({ required: true })
+  userId: string;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);
