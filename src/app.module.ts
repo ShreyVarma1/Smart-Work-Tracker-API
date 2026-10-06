@@ -5,6 +5,12 @@ import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
+import { PostsModule } from './posts/posts.module';
+import { TodosModule } from './todos/todos.module';
+import { CommentsModule } from './comments/comments.module';
+import { JpUsersModule } from './jp-users/jp-users.module';
+import { SeedModule } from './seed/seed.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -20,10 +26,19 @@ import { ProductsModule } from './products/products.module';
       inject: [ConfigService],
     }),
 
+    // Existing modules
     TasksModule,
     UsersModule,
     AuthModule,
     ProductsModule,
+
+    // New aggregation modules
+    PostsModule,
+    TodosModule,
+    CommentsModule,
+    JpUsersModule,
+    SeedModule,
+    AnalyticsModule,
   ],
 })
 export class AppModule {}
